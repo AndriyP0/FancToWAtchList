@@ -1,0 +1,19 @@
+.delete-btn{
+    border: 1px solid black;
+        margin: 5px  5px;
+
+}
+.person-item{
+    display: flex;
+    justify-content: space-between;
+    width: 300px;
+    border: 1px solid black;
+    margin: 5px;
+    align-items: center;
+}
+.content{
+margin: auto;
+}
+.person-item.done{
+    background-color: #806565;
+}

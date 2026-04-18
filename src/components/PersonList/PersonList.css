@@ -1,0 +1,13 @@
+.person-section{
+     display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.person-list {
+  display: flex;
+  flex-direction: column;
+}
+.list-btn {
+  margin: 20px 50px;
+  width: 50px;
+}

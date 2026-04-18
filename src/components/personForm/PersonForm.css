@@ -1,0 +1,20 @@
+.form-input {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid black;
+  margin: 5px;
+}
+input {
+  border: none;
+  height: 100%;
+}
+.form-btn {
+  display: flex;
+  justify-content: space-around;
+  margin: 20px 0;
+}
+.inp {
+  border: 1px solid black;
+  padding:  5px 0;
+  margin: 5px;
+}
