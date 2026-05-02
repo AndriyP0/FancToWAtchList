@@ -3,29 +3,37 @@ import "./App.css";
 import PersonList from "./components/PersonList/PersonList";
 import PersonForm from "./components/personForm/PersonForm";
 import { nanoid } from "nanoid";
-
+import api from "./api/movie-service";
 function App() {
-  const [contacts, setContacts] = useState(
-    JSON.parse(localStorage.getItem("contacts")),
-  );
+  const [contacts, setContacts] = useState([]);
   const [activeContact, setActiveContact] = useState(null);
 
   useEffect(() => {
-    localStorage.setItem("contacts", JSON.stringify(contacts));
-  }, [contacts]);
+    api.get("/contacts").then(({ data }) => {
+      setContacts(data);
+    });
+  }, []);
 
   function createEmptyContact() {
     return { firstName: "", lastName: "", phone: "", email: "", id: null };
   }
 
   const addPerson = (person) => {
-    setContacts([...contacts, { ...person, id: nanoid() }]);
-  };
+    const newPerson = { ...person, id: nanoid() };
 
+    api.post("/contacts", newPerson).then(({ data }) => {
+      setContacts((prev) => [...prev, data]);
+    });
+  };
+  
   const updatePerson = (updatedContact) => {
-    setContacts(
-      contacts.map((c) => (c.id === updatedContact.id ? updatedContact : c)),
-    );
+    api
+      .put(`/contacts/${updatedContact.id}`, updatedContact)
+      .then(({ data }) => {
+        setContacts((prev) =>
+          prev.map((contact) => (contact.id === data.id ? data : contact)),
+        );
+      });
   };
 
   const onSubmit = (contact) => {
@@ -39,8 +47,10 @@ function App() {
   };
 
   const deletePerson = (id) => {
-    setContacts(contacts.filter((c) => c.id !== id));
-    setActiveContact(createEmptyContact());
+    api.delete(`/contacts/${id}`).then(() => {
+      setContacts((prev) => prev.filter((c) => c.id !== id));
+      setActiveContact(createEmptyContact());
+    });
   };
 
   const isActive = (contact) => {
